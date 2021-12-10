@@ -8,11 +8,13 @@ import data
 
 def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
     if model_dir is None:
-        config = AutoConfig.from_pretrained('gpt2')
+        config = AutoConfig.from_pretrained('xlnet-base-cased')
+        tokenizer = AutoTokenizer.from_pretrained("xlnet-base-cased")
     else:
         config = AutoConfig.from_pretrained(model_dir)
+        tokenizer = AutoTokenizer.from_pretrained("gpt2")
+
     model = AutoModelForCausalLM.from_config(config)
-    tokenizer = AutoTokenizer.from_pretrained("gpt2")
 
     PADDING_TEXT = """The quarrel between Agamemnon and Achilles—Achilles withdraws from the war, and sends his mother Thetis to ask Jove to help the Trojans—Scene between Jove and Juno on Olympus.
     Sing, O goddess, the anger of Achilles son of Peleus, that brought countless ills upon the Achaeans.
