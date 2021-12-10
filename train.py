@@ -26,6 +26,22 @@ generate.generate('gen_init', model_dir=None)
 
 model = GPT2LMHeadModel.from_pretrained('gpt2').to(device)
 
+# Freeze some model layers to stabilize fine-tuning
+for parameter in model.parameters():
+    parameter.requires_grad = False
+
+for i, m in enumerate(model.transformer.h):
+    # Only un-freeze the last n transformer blocks
+    if i >= 6:
+        for parameter in m.parameters():
+            parameter.requires_grad = True
+
+for parameter in model.transformer.ln_f.parameters():
+    parameter.requires_grad = True
+
+for parameter in model.lm_head.parameters():
+    parameter.requires_grad = True
+
 training_args = TrainingArguments("test_trainer")
 training_args.num_train_epochs = args.n_epochs
 training_args.learning_rate = args.lr
