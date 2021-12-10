@@ -1,20 +1,16 @@
 """Generate text from a pre-trained model."""
 
 import torch
-from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer, GPT2Tokenizer
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
 # Download configuration from huggingface.co and cache.
-
-import data
 
 def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
     if model_dir is None:
-        config = AutoConfig.from_pretrained('gpt2')
+        model = GPT2LMHeadModel.from_pretrained('gpt2')
     else:
-        config = AutoConfig.from_pretrained(model_dir)
+        model = GPT2LMHeadModel.from_pretrained(model_dir)
 
-    # tokenizer = AutoTokenizer.from_pretrained("gpt2")
     tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
-    model = AutoModelForCausalLM.from_config(config)
 
     # PADDING_TEXT = """The quarrel between Agamemnon and Achilles—Achilles withdraws from the war, and sends his mother Thetis to ask Jove to help the Trojans—Scene between Jove and Juno on Olympus.
     # Sing, O goddess, the anger of Achilles son of Peleus, that brought countless ills upon the Achaeans.
@@ -26,15 +22,23 @@ def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
     # “Old man,” said he, “let me not find you tarrying about our ships, nor yet coming hereafter.
     # Your sceptre of the god and your wreath shall profit you nothing. <eod> </s> <eos>"""
     PADDING_TEXT = ""
-    # prompt = "Sing, O goddess, the anger of Achilles son of Peleus, that brought countless ills upon the Achaeans."
-    prompt = "We got a lot of grief when our photo became a meme."
-    input_ids = tokenizer.encode('I enjoy walking with my cute dog', return_tensors='pt')
-
+    prompt = "Sing, O goddess, the anger of Achilles son of Peleus, that brought countless ills upon the Achaeans."
+    input_ids = inputs = tokenizer(PADDING_TEXT + prompt,
+                                   add_special_tokens=False,
+                                   return_tensors="pt")["input_ids"]
+    prompt_length = len(tokenizer.decode(inputs[0]))
+    outputs = model.generate(inputs,
+                             max_length=250,
+                             do_sample=True,
+                             top_p=0.95,
+                             top_k=60)
     # generate text until the output length (which includes the context length) reaches 50
     greedy_output = model.generate(input_ids, max_length=50)
+    generated = prompt + tokenizer.decode(outputs[0])[prompt_length + 1:]
+    print(generated)
 
-    print("Output:\n" + 100 * '-')
-    print(tokenizer.decode(greedy_output[0], skip_special_tokens=True))
+    # print("Output:\n" + 100 * '-')
+    # print(tokenizer.decode(greedy_output[0], skip_special_tokens=True))
 
     # if out_file is not None:
     #     filename = f'output/{out_file}'
