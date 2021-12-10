@@ -1,7 +1,8 @@
 # auto-homer: A Fine-Tuned Language Model for Homeric Epics
 Automatically generate Homeric-style English texts in flavor of stories in the Iliad and the Odyssey.
+Please refer to this page on motivations behind this project and some generation results: https://leozdong.notion.site/auto-homer-A-Fine-Tuned-Language-Model-for-Homeric-Epics-954ee23555664f829d9dedeeac02cb41.
 
-## Source Texts
+## Source Texts Credits
 The source texts are open-source translations provided by the Project Gutenberg.
 ### The Iliad
 https://www.gutenberg.org/files/2199/2199-0.txt  
