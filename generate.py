@@ -27,25 +27,19 @@ def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
     PADDING_TEXT = ""
     # prompt = "Sing, O goddess, the anger of Achilles son of Peleus, that brought countless ills upon the Achaeans."
     prompt = "We got a lot of grief when our photo became a meme."
-    inputs = tokenizer(PADDING_TEXT + prompt,
-                    add_special_tokens=False,
-                    return_tensors="pt")["input_ids"]
-    prompt_length = len(tokenizer.decode(inputs[0]))
-    outputs = model.generate(inputs,
-                             max_length=max_length,
-                             do_sample=True,
-                             top_p=0.95,
-                             top_k=60,
-                             num_beam=5,
-                             early_stopping=True)
-    generated = prompt + tokenizer.decode(outputs[0])[prompt_length + 1:]
-    print(generated)
+    input_ids = tokenizer.encode('I enjoy walking with my cute dog', return_tensors='tf')
 
-    if out_file is not None:
-        filename = f'output/{out_file}'
-        textfile = open(filename, 'w+')
-        textfile.write(generated)
-        textfile.close()
+    # generate text until the output length (which includes the context length) reaches 50
+    greedy_output = model.generate(input_ids, max_length=50)
+
+    print("Output:\n" + 100 * '-')
+    print(tokenizer.decode(greedy_output[0], skip_special_tokens=True))
+
+    # if out_file is not None:
+    #     filename = f'output/{out_file}'
+    #     textfile = open(filename, 'w+')
+    #     textfile.write(generated)
+    #     textfile.close()
 
 if __name__ == '__main__':
     generate(None)
