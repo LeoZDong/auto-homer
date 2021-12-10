@@ -16,13 +16,13 @@ parser.add_argument('--model_dir', type=str, default='models/gpt2_homer')
 parser.add_argument('--use_cpu', action='store_true')
 args = parser.parse_args()
 
-prompts = [
+prompts = {
     "anger": "Sing, O goddess, the anger of Achilles son of Peleus, that brought countless ills upon the Achaeans",
     "journey": "Tell me, O Muse, of that ingenious hero who travelled far and wide",
     "grief": "But when Achilles was now sated with grief and had unburthened the bitterness of his sorrow, he left his seat and raised the old man by the hand",
     "mourning": "Therefore my tears flow both for you and for my unhappy self, for there is no one else in Troy who is kind to me, but all shrink and shudder as they go by me",
     "war": "Thus through the livelong day did they wage fierce war, and the sweat of their toil rained ever on their legs under them, and on their hands and eyes"
-]
+}
 
 def generate_prompts(out_file, model_dir):
     for theme in prompts.keys():
