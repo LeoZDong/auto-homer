@@ -27,7 +27,7 @@ def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
     PADDING_TEXT = ""
     # prompt = "Sing, O goddess, the anger of Achilles son of Peleus, that brought countless ills upon the Achaeans."
     prompt = "We got a lot of grief when our photo became a meme."
-    input_ids = tokenizer.encode('I enjoy walking with my cute dog', return_tensors='tf')
+    input_ids = tokenizer.encode('I enjoy walking with my cute dog', return_tensors='pt')
 
     # generate text until the output length (which includes the context length) reaches 50
     greedy_output = model.generate(input_ids, max_length=50)
