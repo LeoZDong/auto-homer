@@ -42,4 +42,4 @@ def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
     #     textfile.close()
 
 if __name__ == '__main__':
-    generate(None)
+    generate(None, None)
