@@ -14,7 +14,7 @@ def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
         print("Loading from local model!")
         model = GPT2LMHeadModel.from_pretrained(model_dir).to(device)
 
-    tokenizer = GPT2Tokenizer.from_pretrained("gpt2").to(device)
+    tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
 
     PADDING_TEXT = """The quarrel between Agamemnon and Achilles—Achilles withdraws from the war, and sends his mother Thetis to ask Jove to help the Trojans—Scene between Jove and Juno on Olympus.
     Sing, O goddess, the anger of Achilles son of Peleus, that brought countless ills upon the Achaeans.
@@ -27,9 +27,9 @@ def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
     Your sceptre of the god and your wreath shall profit you nothing. <eod> </s> <eos>"""
     # PADDING_TEXT = ""
     prompt = "Sing, O goddess, the anger of Achilles son of Peleus, that brought countless ills upon the Achaeans."
-    input_ids = inputs = tokenizer(PADDING_TEXT + prompt,
-                                   add_special_tokens=False,
-                                   return_tensors="pt")["input_ids"]
+    inputs = tokenizer(PADDING_TEXT + prompt,
+                       add_special_tokens=False,
+                       return_tensors="pt")["input_ids"].to(device)
     prompt_length = len(tokenizer.decode(inputs[0]))
     outputs = model.generate(inputs,
                              max_length=1000,
@@ -41,7 +41,7 @@ def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
                              early_stopping=True,
                              num_beams=5)
     # generate text until the output length (which includes the context length) reaches 50
-    greedy_output = model.generate(input_ids, max_length=50)
+    greedy_output = model.generate(inputs, max_length=50)
     generated = prompt + tokenizer.decode(
         outputs[0], skip_special_tokens=True)[prompt_length + 1:]
 

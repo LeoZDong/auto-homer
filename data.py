@@ -1,10 +1,10 @@
 """Data loading, preprocessing, and dataset object creation."""
 
+import torch
 import torch.utils.data as data
 from transformers import AutoTokenizer
 
-device = "cuda:0" if torch.cuda.is_available() else "cpu"
-tokenizer = AutoTokenizer.from_pretrained('gpt2').to(device)
+tokenizer = AutoTokenizer.from_pretrained('gpt2')
 
 class TokenizedSentensesDataset(data.Dataset):
     def __init__(self, tok_sents):
