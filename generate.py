@@ -20,9 +20,9 @@ prompts = {
 def generate_prompts(out_file, model_dir):
     for theme in prompts.keys():
         print(f"###### Generating for theme: {theme} ######")
-        generate(f'{out_file}_{theme}', model_dir)
+        generate(f'{out_file}_{theme}', model_dir, prompts[theme])
 
-def generate(out_file, model_dir):
+def generate(out_file, model_dir, prompt):
     if model_dir is None:
         print("Loading from default pretrained GPT-2!")
         model = GPT2LMHeadModel.from_pretrained('gpt2').to(device)
@@ -42,7 +42,6 @@ def generate(out_file, model_dir):
     # “Old man,” said he, “let me not find you tarrying about our ships, nor yet coming hereafter.
     # Your sceptre of the god and your wreath shall profit you nothing. <eod> </s> <eos>"""
     PADDING_TEXT = ""
-    prompt = "Sing, O goddess, the anger of Achilles son of Peleus, that brought countless ills upon the Achaeans."
     inputs = tokenizer(PADDING_TEXT + prompt,
                        add_special_tokens=False,
                        return_tensors="pt")["input_ids"].to(device)
