@@ -38,10 +38,8 @@ def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
                              top_k=60,
                              no_repeat_ngram_size=2,
                              num_return_sequences=3,
-                             early_stopping=True,
-                             num_beams=5)
+                             early_stopping=True)
     # generate text until the output length (which includes the context length) reaches 50
-    import ipdb; ipdb.set_trace()
     out_texts = []
     for i, output in enumerate(outputs):
         out_text = prompt + tokenizer.decode(
