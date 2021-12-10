@@ -9,13 +9,6 @@ from transformers.utils.dummy_flax_objects import FlaxAutoModelForSeq2SeqLM
 
 device = "cuda:0" if torch.cuda.is_available() else "cpu"
 
-parser = argparse.ArgumentParser(
-    description="Arguments for training and evaluation")
-parser.add_argument('--out_file', type=str, default='init')
-parser.add_argument('--model_dir', type=str, default='models/gpt2_homer')
-parser.add_argument('--use_cpu', action='store_true')
-args = parser.parse_args()
-
 prompts = {
     "anger": "Sing, O goddess, the anger of Achilles son of Peleus, that brought countless ills upon the Achaeans",
     "journey": "Tell me, O Muse, of that ingenious hero who travelled far and wide",
@@ -79,6 +72,13 @@ def generate(out_file, model_dir):
             textfile.close()
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+    description="Arguments for training and evaluation")
+    parser.add_argument('--out_file', type=str, default='init')
+    parser.add_argument('--model_dir', type=str, default='models/gpt2_homer')
+    parser.add_argument('--use_cpu', action='store_true')
+    args = parser.parse_args()
+
     args = parser.parse_args()
     if args.use_cpu:
         device = 'cpu'
