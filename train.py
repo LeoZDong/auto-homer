@@ -11,6 +11,8 @@ from transformers import TrainingArguments
 import data
 import generate
 
+device = "cuda:0" if torch.cuda.is_available() else "cpu"
+
 parser = argparse.ArgumentParser(
     description="Arguments for training and evaluation")
 parser.add_argument('--n_epochs', type=int, default=4)
@@ -22,7 +24,7 @@ args = parser.parse_args()
 # Generate initial output
 generate.generate('gen_init', model_dir=None)
 
-model = GPT2LMHeadModel.from_pretrained('gpt2')
+model = GPT2LMHeadModel.from_pretrained('gpt2').to(device)
 
 training_args = TrainingArguments("test_trainer")
 training_args.num_train_epochs = args.n_epochs

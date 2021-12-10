@@ -4,15 +4,17 @@ import torch
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 # Download configuration from huggingface.co and cache.
 
+device = "cuda:0" if torch.cuda.is_available() else "cpu"
+
 def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
     if model_dir is None:
         print("Loading from default pretrained GPT-2!")
-        model = GPT2LMHeadModel.from_pretrained('gpt2')
+        model = GPT2LMHeadModel.from_pretrained('gpt2').to(device)
     else:
         print("Loading from local model!")
-        model = GPT2LMHeadModel.from_pretrained(model_dir)
+        model = GPT2LMHeadModel.from_pretrained(model_dir).to(device)
 
-    tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+    tokenizer = GPT2Tokenizer.from_pretrained("gpt2").to(device)
 
     PADDING_TEXT = """The quarrel between Agamemnon and Achilles—Achilles withdraws from the war, and sends his mother Thetis to ask Jove to help the Trojans—Scene between Jove and Juno on Olympus.
     Sing, O goddess, the anger of Achilles son of Peleus, that brought countless ills upon the Achaeans.
