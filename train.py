@@ -19,10 +19,11 @@ parser.add_argument('--n_epochs', type=int, default=4)
 parser.add_argument('--lr', type=float, default=1e-4)
 parser.add_argument('--batch_size', type=int, default=4)
 parser.add_argument('--save_steps', type=int, default=500)
+parser.add_argument('--load_ckpt', type=str, default='')
 args = parser.parse_args()
 
 # Generate initial output
-generate.generate('gen_init', model_dir=None)
+# generate.generate('gen_init', model_dir=None)
 
 model = GPT2LMHeadModel.from_pretrained('gpt2').to(device)
 
@@ -54,6 +55,10 @@ trainer = Trainer(model=model,
                   args=training_args,
                   train_dataset=train_dataset,
                   eval_dataset=train_dataset)
-trainer.train()
+if len(args.load_ckpt) > 0:
+    trainer.train(args.load_ckpt)
+else:
+    trainer.train()
+
 model.save_pretrained(save_directory='models/gpt2_homer')
-generate.generate('gen_final', model_dir='models/gpt2_homer')
+# generate.generate('gen_final', model_dir='models/gpt2_homer')
