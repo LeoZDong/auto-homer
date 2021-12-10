@@ -2,6 +2,7 @@
 
 import torch
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
+from transformers.utils.dummy_flax_objects import FlaxAutoModelForSeq2SeqLM
 # Download configuration from huggingface.co and cache.
 
 device = "cuda:0" if torch.cuda.is_available() else "cpu"
@@ -39,7 +40,7 @@ def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
                              top_k=60,
                              no_repeat_ngram_size=2,
                              num_return_sequences=3,
-                             early_stopping=True)
+                             early_stopping=False)
     # generate text until the output length (which includes the context length) reaches 50
     out_texts = []
     for i, output in enumerate(outputs):
