@@ -41,12 +41,10 @@ def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
                              early_stopping=True,
                              num_beams=5)
     # generate text until the output length (which includes the context length) reaches 50
-    generated = prompt + tokenizer.decode(
-        outputs[0], skip_special_tokens=True)[prompt_length + 1:]
-
     out_texts = []
-    for i, output in enumerate(generated):
-        out_text = tokenizer.decode(output)
+    for i, output in enumerate(outputs):
+        out_text = prompt + tokenizer.decode(
+            output, skip_special_tokens=True)[prompt_length + 1:]
         print("{}: {}".format(i, out_text))
         out_texts.append(out_text)
 
