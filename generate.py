@@ -16,7 +16,20 @@ parser.add_argument('--model_dir', type=str, default='models/gpt2_homer')
 parser.add_argument('--use_cpu', action='store_true')
 args = parser.parse_args()
 
-def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
+prompts = [
+    "anger": "Sing, O goddess, the anger of Achilles son of Peleus, that brought countless ills upon the Achaeans"
+    "journey": "Tell me, O Muse, of that ingenious hero who travelled far and wide",
+    "grief": "But when Achilles was now sated with grief and had unburthened the bitterness of his sorrow, he left his seat and raised the old man by the hand",
+    "mourning": "Therefore my tears flow both for you and for my unhappy self, for there is no one else in Troy who is kind to me, but all shrink and shudder as they go by me",
+    "war": "Thus through the livelong day did they wage fierce war, and the sweat of their toil rained ever on their legs under them, and on their hands and eyes"
+]
+
+def generate_prompts(out_file, model_dir):
+    for theme in prompts.keys():
+        print(f"###### Generating for theme: {theme} ######")
+        generate(f'{out_file}_{theme}', model_dir)
+
+def generate(out_file, model_dir):
     if model_dir is None:
         print("Loading from default pretrained GPT-2!")
         model = GPT2LMHeadModel.from_pretrained('gpt2').to(device)
@@ -42,13 +55,13 @@ def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
                        return_tensors="pt")["input_ids"].to(device)
     prompt_length = len(tokenizer.decode(inputs[0]))
     outputs = model.generate(inputs,
-                             min_length=500,
-                             max_length=1000,
+                             min_length=250,
+                             max_length=500,
                              do_sample=True,
                              top_p=0.95,
                              top_k=60,
                              no_repeat_ngram_size=2,
-                             num_return_sequences=3,
+                             num_return_sequences=2,
                              early_stopping=False)
     # generate text until the output length (which includes the context length) reaches 50
     out_texts = []
@@ -69,4 +82,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
     if args.use_cpu:
         device = 'cpu'
-    generate(args.out_file, args.model_dir)
+    generate_prompts(args.out_file, args.model_dir)
