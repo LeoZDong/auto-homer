@@ -20,7 +20,7 @@ parser.add_argument('--save_steps', type=int, default=500)
 args = parser.parse_args()
 
 # Generate initial output
-# generate.generate('gen_init.txt', model_dir=None)
+generate.generate('gen_init.txt', model_dir=None)
 
 config = AutoConfig.from_pretrained('gpt2')
 model = AutoModelForCausalLM.from_config(config)
