@@ -40,7 +40,6 @@ def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
                              num_return_sequences=3,
                              early_stopping=True)
     # generate text until the output length (which includes the context length) reaches 50
-    greedy_output = model.generate(inputs, max_length=50)
     generated = prompt + tokenizer.decode(
         outputs[0], skip_special_tokens=True)[prompt_length + 1:]
 
