@@ -32,6 +32,7 @@ def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
                        return_tensors="pt")["input_ids"].to(device)
     prompt_length = len(tokenizer.decode(inputs[0]))
     outputs = model.generate(inputs,
+                             min_length=500,
                              max_length=1000,
                              do_sample=True,
                              top_p=0.95,
