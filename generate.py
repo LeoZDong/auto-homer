@@ -37,11 +37,12 @@ def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
                              top_k=60)
     generated = prompt + tokenizer.decode(outputs[0])[prompt_length + 1:]
     print(generated)
-
-    filename = f'output/{out_file}'
-    textfile = open(filename, 'w+')
-    textfile.write(generated)
-    textfile.close()
+    
+    if out_file is not None:
+        filename = f'output/{out_file}'
+        textfile = open(filename, 'w+')
+        textfile.write(generated)
+        textfile.close()
 
 if __name__ == '__main__':
-    generate()
+    generate(None)
