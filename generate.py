@@ -11,7 +11,7 @@ def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
         config = AutoConfig.from_pretrained('gpt2')
     else:
         config = AutoConfig.from_pretrained(model_dir)
-    
+
     tokenizer = AutoTokenizer.from_pretrained("gpt2")
     model = AutoModelForCausalLM.from_config(config)
 
@@ -25,7 +25,8 @@ def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
     # “Old man,” said he, “let me not find you tarrying about our ships, nor yet coming hereafter.
     # Your sceptre of the god and your wreath shall profit you nothing. <eod> </s> <eos>"""
     PADDING_TEXT = ""
-    prompt = "Sing, O goddess, the anger of Achilles son of Peleus, that brought countless ills upon the Achaeans."
+    # prompt = "Sing, O goddess, the anger of Achilles son of Peleus, that brought countless ills upon the Achaeans."
+    prompt = "We got a lot of grief when our photo became a meme."
     inputs = tokenizer(PADDING_TEXT + prompt,
                     add_special_tokens=False,
                     return_tensors="pt")["input_ids"]
@@ -37,7 +38,7 @@ def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
                              top_k=60)
     generated = prompt + tokenizer.decode(outputs[0])[prompt_length + 1:]
     print(generated)
-    
+
     if out_file is not None:
         filename = f'output/{out_file}'
         textfile = open(filename, 'w+')
