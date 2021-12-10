@@ -6,8 +6,10 @@ from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
 def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
     if model_dir is None:
+        print("Loading from local model!")
         model = GPT2LMHeadModel.from_pretrained('gpt2')
     else:
+        print("Loading from default pretrained GPT-2!")
         model = GPT2LMHeadModel.from_pretrained(model_dir)
 
     tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
@@ -34,17 +36,15 @@ def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
                              top_k=60)
     # generate text until the output length (which includes the context length) reaches 50
     greedy_output = model.generate(input_ids, max_length=50)
-    generated = prompt + tokenizer.decode(outputs[0])[prompt_length + 1:]
+    generated = prompt + tokenizer.decode(
+        outputs[0], skip_special_tokens=True)[prompt_length + 1:]
     print(generated)
 
-    # print("Output:\n" + 100 * '-')
-    # print(tokenizer.decode(greedy_output[0], skip_special_tokens=True))
-
-    # if out_file is not None:
-    #     filename = f'output/{out_file}'
-    #     textfile = open(filename, 'w+')
-    #     textfile.write(generated)
-    #     textfile.close()
+    if out_file is not None:
+        filename = f'output/{out_file}'
+        textfile = open(filename, 'w+')
+        textfile.write(generated)
+        textfile.close()
 
 if __name__ == '__main__':
     generate(None, None)

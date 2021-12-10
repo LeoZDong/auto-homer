@@ -3,7 +3,7 @@
 import argparse
 
 import torch
-from transformers import AutoConfig, AutoModelForCausalLM
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
 # Download configuration from huggingface.co and cache.
 from transformers import Trainer
 from transformers import TrainingArguments
@@ -13,7 +13,7 @@ import generate
 
 parser = argparse.ArgumentParser(
     description="Arguments for training and evaluation")
-parser.add_argument('--n_epochs', type=int, default=10)
+parser.add_argument('--n_epochs', type=int, default=4)
 parser.add_argument('--lr', type=float, default=1e-4)
 parser.add_argument('--batch_size', type=int, default=4)
 parser.add_argument('--save_steps', type=int, default=500)
@@ -22,8 +22,7 @@ args = parser.parse_args()
 # Generate initial output
 generate.generate('gen_init.txt', model_dir=None)
 
-config = AutoConfig.from_pretrained('gpt2')
-model = AutoModelForCausalLM.from_config(config)
+model = GPT2LMHeadModel.from_pretrained('gpt2')
 
 training_args = TrainingArguments("test_trainer")
 training_args.num_train_epochs = args.n_epochs
