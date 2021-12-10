@@ -52,9 +52,10 @@ def generate(out_file, model_dir, prompt):
                              do_sample=True,
                              top_p=0.95,
                              top_k=60,
-                             no_repeat_ngram_size=2,
+                             repetition_penalty=5,
                              num_return_sequences=2,
-                             early_stopping=False)
+                             early_stopping=True,
+                             num_beams=5)
     # generate text until the output length (which includes the context length) reaches 50
     out_texts = []
     for i, output in enumerate(outputs):
