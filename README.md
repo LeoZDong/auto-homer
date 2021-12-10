@@ -20,6 +20,6 @@ https://www.gutenberg.org/ebooks/1727.txt.utf-8
 The Project Gutenberg eBook of The Odyssey, by Homer  
 Title: The Odyssey  
 Author: Homer  
-Translator: Samuel Butler
+Translator: Samuel Butler  
 Release Date: April, 1999 [eBook #1727]  
 [Most recently updated: October 24, 2021]
