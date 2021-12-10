@@ -26,7 +26,7 @@ def get_tok_sents():
     tokenizer.pad_token = tokenizer.eos_token
     tokenized_sentences = tokenizer(batch_sentences,
                                     return_tensors='pt',
-                                    padding="max_length",
+                                    padding=True,
                                     truncation=True)
     return tokenized_sentences
 
