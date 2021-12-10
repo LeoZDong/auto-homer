@@ -10,7 +10,7 @@ class TokenizedSentensesDataset(data.Dataset):
         self.tok_sents = tok_sents
 
     def __len__(self):
-        return len(self.tok_sents)
+        return len(self.tok_sents['input_ids'])
 
     def __getitem__(self, idx):
         item = {

@@ -6,10 +6,13 @@ from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer
 
 import data
 
-def generate(model_dir = 'models/gpt2_homer'):
-    config = AutoConfig.from_pretrained(model_dir)
+def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
+    if model_dir is None:
+        config = AutoConfig.from_pretrained('gpt2')
+    else:
+        config = AutoConfig.from_pretrained(model_dir)
     model = AutoModelForCausalLM.from_config(config)
-    tokenizer = AutoTokenizer.from_pretrained("xlnet-base-cased")
+    tokenizer = AutoTokenizer.from_pretrained("gpt2")
 
     PADDING_TEXT = """The quarrel between Agamemnon and Achilles—Achilles withdraws from the war, and sends his mother Thetis to ask Jove to help the Trojans—Scene between Jove and Juno on Olympus.
     Sing, O goddess, the anger of Achilles son of Peleus, that brought countless ills upon the Achaeans.
@@ -27,14 +30,14 @@ def generate(model_dir = 'models/gpt2_homer'):
                     return_tensors="pt")["input_ids"]
     prompt_length = len(tokenizer.decode(inputs[0]))
     outputs = model.generate(inputs,
-                            max_length=1000,
-                            do_sample=True,
-                            top_p=0.95,
-                            top_k=60)
+                             max_length=max_length,
+                             do_sample=True,
+                             top_p=0.95,
+                             top_k=60)
     generated = prompt + tokenizer.decode(outputs[0])[prompt_length + 1:]
     print(generated)
 
-    filename = 'output/gen.txt'
+    filename = f'output/{out_file}'
     textfile = open(filename, 'w+')
     textfile.write(generated)
     textfile.close()

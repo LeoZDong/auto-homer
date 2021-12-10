@@ -12,6 +12,9 @@ import generate
 CKPT_INT = 100
 USE_CUDA = torch.cuda.is_available()
 
+# Generate initial output
+generate.generate('gen_init.txt', model_dir=None)
+
 config = AutoConfig.from_pretrained('gpt2')
 model = AutoModelForCausalLM.from_config(config)
 
@@ -27,4 +30,4 @@ trainer = Trainer(model=model,
                   eval_dataset=train_dataset)
 trainer.train()
 model.save_pretrained(save_directory='models/gpt2_homer')
-generate.generate()
+generate.generate('gen_final.txt', model_dir='models/gpt2_homer')
