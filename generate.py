@@ -1,7 +1,7 @@
 """Generate text from a pre-trained model."""
 
 import torch
-from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer
+from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer, GPT2Tokenizer
 # Download configuration from huggingface.co and cache.
 
 import data
@@ -12,7 +12,8 @@ def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
     else:
         config = AutoConfig.from_pretrained(model_dir)
 
-    tokenizer = AutoTokenizer.from_pretrained("gpt2")
+    # tokenizer = AutoTokenizer.from_pretrained("gpt2")
+    tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
     model = AutoModelForCausalLM.from_config(config)
 
     # PADDING_TEXT = """The quarrel between Agamemnon and Achilles—Achilles withdraws from the war, and sends his mother Thetis to ask Jove to help the Trojans—Scene between Jove and Juno on Olympus.
