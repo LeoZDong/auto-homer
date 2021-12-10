@@ -1,11 +1,19 @@
 """Generate text from a pre-trained model."""
 
+import argparse
+
 import torch
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 from transformers.utils.dummy_flax_objects import FlaxAutoModelForSeq2SeqLM
 # Download configuration from huggingface.co and cache.
 
 device = "cuda:0" if torch.cuda.is_available() else "cpu"
+
+parser = argparse.ArgumentParser(
+    description="Arguments for training and evaluation")
+parser.add_argument('--out_file', type=str, default='init')
+parser.add_argument('--model_dir', type=str, default='models/gpt2_homer')
+args = parser.parse_args()
 
 def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
     if model_dir is None:
@@ -57,4 +65,5 @@ def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
             textfile.close()
 
 if __name__ == '__main__':
-    generate(None, None)
+    args = parser.parse_args()
+    generate(args.out_file, args.model_dir)
