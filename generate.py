@@ -35,7 +35,9 @@ def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
                              max_length=max_length,
                              do_sample=True,
                              top_p=0.95,
-                             top_k=60)
+                             top_k=60,
+                             num_beam=5,
+                             early_stopping=True)
     generated = prompt + tokenizer.decode(outputs[0])[prompt_length + 1:]
     print(generated)
 
