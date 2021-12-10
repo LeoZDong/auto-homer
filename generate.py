@@ -52,7 +52,7 @@ def generate(out_file, model_dir, prompt):
                              do_sample=True,
                              top_p=0.95,
                              top_k=60,
-                             repetition_penalty=5,
+                             repetition_penalty=5.0,
                              num_return_sequences=2,
                              early_stopping=True,
                              num_beams=5)
