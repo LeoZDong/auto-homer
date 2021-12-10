@@ -6,10 +6,10 @@ from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
 def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
     if model_dir is None:
-        print("Loading from local model!")
+        print("Loading from default pretrained GPT-2!")
         model = GPT2LMHeadModel.from_pretrained('gpt2')
     else:
-        print("Loading from default pretrained GPT-2!")
+        print("Loading from local model!")
         model = GPT2LMHeadModel.from_pretrained(model_dir)
 
     tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
