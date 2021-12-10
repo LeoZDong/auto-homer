@@ -13,6 +13,7 @@ parser = argparse.ArgumentParser(
     description="Arguments for training and evaluation")
 parser.add_argument('--out_file', type=str, default='init')
 parser.add_argument('--model_dir', type=str, default='models/gpt2_homer')
+parser.add_argument('--use_cpu', action='store_true')
 args = parser.parse_args()
 
 def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
@@ -66,4 +67,6 @@ def generate(out_file, model_dir='models/gpt2_homer', max_length=1000):
 
 if __name__ == '__main__':
     args = parser.parse_args()
+    if args.use_cpu:
+        device = 'cpu'
     generate(args.out_file, args.model_dir)
