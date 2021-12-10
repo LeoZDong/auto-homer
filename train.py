@@ -19,7 +19,7 @@ config = AutoConfig.from_pretrained('gpt2')
 model = AutoModelForCausalLM.from_config(config)
 
 training_args = TrainingArguments("test_trainer")
-training_args.num_train_epochs = 1000
+training_args.num_train_epochs = 100
 training_args.learning_rate = 1e-4
 training_args.save_steps = 500
 
